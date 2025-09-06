@@ -18,6 +18,7 @@ app.use("/uploads", express.static("public/uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/job", router);
+
 app.listen(process.env.PORT, async () => {
   try {
     await mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING);
