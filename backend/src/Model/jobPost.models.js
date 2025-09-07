@@ -9,10 +9,6 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  role: {
-    type: String,
-    required: true,
-  },
   requiredSkills: {
     type: [String],
     required: true,
@@ -23,17 +19,14 @@ const postSchema = new mongoose.Schema({
   },
   jobType: {
     type: String,
-
     required: true,
   },
   location: {
     type: String,
-
     required: true,
   },
   workMode: {
     type: String,
-
     required: true,
   },
   company: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }],
@@ -49,5 +42,6 @@ const postSchema = new mongoose.Schema({
     },
   ],
 });
+
 const PostModel = mongoose.model("JobPost", postSchema);
 export default PostModel;

@@ -9,7 +9,7 @@ const companyController = new CompanyController();
 const userController = new UserController();
 
 // Normal signup
-router.post("/signup", userController.signup);
+// router.post("/signup", userController.signup);
 router.post(
   "/companySignup",
   upload.single("image"),
@@ -70,4 +70,5 @@ router.put(
   upload.single("image"),
   userController.userProfilePicEdit
 );
+
 export default router;

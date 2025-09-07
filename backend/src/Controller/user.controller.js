@@ -6,54 +6,59 @@ import PostModel from "../Model/jobPost.models.js";
 class UserController {
   // Signup
   async signup(req, res) {
-    const { username, email, password, conformPassword } = req.body;
     try {
+      const { username, email, password, conformPassword } = req.body;
+
+      // Check if user already exists
       const userExist = await UserModel.findOne({ email });
       if (userExist) {
         return res.status(409).json({ message: "Email is already taken" });
       }
-      const passwordRegex = /^(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/;
-      if (
-        !passwordRegex.test(password) &&
-        !passwordRegex.test(conformPassword)
-      ) {
+
+      // Check password match
+      if (password !== conformPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+      }
+
+      // Password validation: min 8 chars, 1 special char
+      const passwordRegex = /^(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      if (!passwordRegex.test(password)) {
         return res.status(400).json({
           message:
-            "Password must be at least 8 characters long and contain at least one special character",
+            "Password must be at least 8 characters long and include at least one special character (@$!%*?&)",
         });
       }
 
-      if (password !== conformPassword && conformPassword !== password) {
-        return res
-          .status(403)
-          .json({ message: "Please enter your password correctly" });
-      }
-
+      // Hash password
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);
 
-      const response = await UserModel.create({
+      // Create user
+      const newUser = await UserModel.create({
         username,
         email,
         password: hash,
+        profileImage: req.file ? req.file.filename : null, // if using multer for profile image
       });
 
-      let job_auth_token = jwt.sign(
-        { email: email, userid: response._id, username: username },
+      // Create JWT token
+      const token = jwt.sign(
+        { email: newUser.email, userid: newUser._id },
         process.env.JWT_SECRET_TOKEN,
         { expiresIn: "30d" }
       );
 
-      res.cookie("job_auth_token", job_auth_token, {
+      // Set cookie
+      res.cookie("job_auth_token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
-      res.status(200).json(response);
+      res.status(200).json({ message: "Signup successful", user: newUser });
     } catch (err) {
-      console.log(`Error in signup user ${err}`);
+      console.log("Error in signup:", err);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -218,7 +223,7 @@ class UserController {
       const cv = req.file ? `/uploads/${req.file.filename}` : null;
 
       // Validation
-      if (!jobId || !description || !cv || !phoneno) {
+      if (!jobId || !cv || !phoneno) {
         return res
           .status(400)
           .json({ message: "All fields including CV are required" });

@@ -84,33 +84,38 @@ class Companycontroller {
     const {
       title,
       description,
-      role,
       jobType,
       requiredSkills,
       experience,
       location,
       workMode,
     } = req.body;
+
     try {
-      const company = await CompanyModel.findOne({ email: email });
+      const company = await CompanyModel.findOne({ email });
+      if (!company)
+        return res.status(404).json({ message: "Company not found" });
+
       const newJob = await PostModel.create({
         title,
         description,
-        role,
         jobType,
-        requiredSkills,
+        requiredSkills: requiredSkills.split(",").map((skill) => skill.trim()), // comma separated input
         experience,
         location,
         workMode,
       });
+
       newJob.company.push(company._id);
       await newJob.save();
+
       company.job.push(newJob._id);
       await company.save();
+
       res.status(201).json(newJob);
     } catch (err) {
-      console.log(`error in posting job ${err}`);
-      res.status(500).json({ message: `Internal server error: ${err}` });
+      console.log(`Error in posting job: ${err}`);
+      res.status(500).json({ message: "Internal server error" });
     }
   }
   async getCompanyJob(req, res) {

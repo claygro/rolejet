@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     googleId: { type: String },
     applyJob: [{ type: mongoose.Schema.Types.ObjectId, ref: "joJobPost" }],
+    isVerified: { type: Boolean, default: false },
     // New fields
     age: { type: Number },
     profilePic: { type: String }, // image url
