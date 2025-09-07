@@ -16,7 +16,6 @@ function UserProfile() {
   });
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [preview, setPreview] = useState<string>("");
-
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setProfileData({ ...profileData, [e.target.name]: e.target.value });
   };

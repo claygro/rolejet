@@ -13,60 +13,78 @@ class Companycontroller {
           .json({ message: "No data received. Check form fields." });
       }
 
-      const { name, industry, location, password, email } = req.body;
+      const { name, industry, location, password, confirmPassword, email } =
+        req.body;
       const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-      if (!name || !email || !password || !industry || !location) {
+      if (
+        !name ||
+        !email ||
+        !password ||
+        !confirmPassword ||
+        !industry ||
+        !location
+      ) {
         return res.status(400).json({ message: "All fields are required" });
       }
 
-      // check if company already exists
+      // Password validation: at least 8 characters and one special character
+      const passwordRegex = /^(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+      if (!passwordRegex.test(password)) {
+        return res.status(400).json({
+          message:
+            "Password must be at least 8 characters and contain at least one special character.",
+        });
+      }
+
+      // Confirm password
+      if (password !== confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match." });
+      }
+
+      // Email domain validation
+      const allowedDomains = ["gmail.com", "yahoo.com", "outlook.com"];
+      const emailDomain = email.split("@")[1];
+      if (!allowedDomains.includes(emailDomain)) {
+        return res.status(400).json({
+          message: "Email must be a valid Gmail, Yahoo, or Outlook address.",
+        });
+      }
+
+      // Check if company already exists
       const existCompany = await CompanyModel.findOne({
         $or: [{ name }, { email }],
       });
-
       if (existCompany) {
         return res.status(409).json({ message: "Company already exists" });
       }
 
-      // hash password
-      bcrypt.genSalt(10, (err, salt) => {
-        if (err)
-          return res.status(500).json({ message: "Error generating salt" });
+      // Hash password
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
 
-        bcrypt.hash(password, salt, async (err, hash) => {
-          if (err)
-            return res.status(500).json({ message: "Error hashing password" });
-
-          try {
-            const newCompany = await CompanyModel.create({
-              name,
-              industry,
-              image: imageUrl,
-              location,
-              email,
-              password: hash,
-            });
-
-            const companyToken = jwt.sign(
-              { email, name, companyid: newCompany._id },
-              process.env.JWT_SECRET_TOKEN
-            );
-
-            res.cookie("companyToken", companyToken, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-              maxAge: 30 * 24 * 60 * 60 * 1000,
-            });
-
-            res.status(201).json({ newCompany, companyToken });
-          } catch (dbErr) {
-            console.error("Error saving company:", dbErr);
-            res.status(500).json({ message: "Error creating company" });
-          }
-        });
+      const newCompany = await CompanyModel.create({
+        name,
+        industry,
+        image: imageUrl,
+        location,
+        email,
+        password: hashPassword,
       });
+
+      const companyToken = jwt.sign(
+        { email, name, companyid: newCompany._id },
+        process.env.JWT_SECRET_TOKEN
+      );
+
+      res.cookie("companyToken", companyToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+
+      res.status(201).json({ newCompany, companyToken });
     } catch (err) {
       console.error("Error in company signup:", err);
       res.status(500).json({ message: "Internal server error" });

@@ -28,7 +28,13 @@ class UserController {
             "Password must be at least 8 characters long and include at least one special character (@$!%*?&)",
         });
       }
-
+      const allowedDomains = ["gmail.com", "yahoo.com", "outlook.com"];
+      const emailDomain = email.split("@")[1];
+      if (!allowedDomains.includes(emailDomain)) {
+        return res.status(400).json({
+          message: "Email must be a valid Gmail, Yahoo, or Outlook address.",
+        });
+      }
       // Hash password
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(password, salt);

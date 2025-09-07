@@ -1,6 +1,6 @@
 import Connection from "@/config/Connection.config";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 
@@ -22,6 +22,7 @@ interface Job {
 }
 
 const UserJobDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [jobView, setJobView] = useState<Job | null>(null);
 
@@ -89,6 +90,7 @@ const UserJobDetails = () => {
       setPhoneno("");
       setDescription("");
       setCv(null);
+      navigate("/user/interviewAsk");
     } catch (err: any) {
       console.error(err);
       toast(err.response?.data?.message || "❌ Failed to apply");

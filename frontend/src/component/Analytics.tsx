@@ -96,7 +96,7 @@ const Analytics = () => {
           jobs.map((job) => (
             <div key={job._id} className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">{job.title}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {job.userApply
                   .slice()
                   .reverse()
@@ -106,9 +106,6 @@ const Analytics = () => {
                       className="bg-white shadow-md rounded-lg p-4 hover:shadow-xl transition cursor-pointer relative"
                       onClick={() => setSelectedApplicant(app)}
                     >
-                      <h3 className="text-lg font-bold text-blue-700 mb-2">
-                        {app.username}
-                      </h3>
                       <h3>{app.email}</h3>
                       <p className="text-gray-600 text-sm line-clamp-3">
                         {app.description.slice(0, 30) ||
@@ -118,7 +115,6 @@ const Analytics = () => {
                         Applied on:{" "}
                         {new Date(app.appliedAt).toLocaleDateString()}
                       </div>
-
                       {/* Delete icon */}
                       <button
                         className="absolute top-2 right-2 text-red-600 hover:text-red-800 p-1"
@@ -129,38 +125,19 @@ const Analytics = () => {
                       >
                         <Trash2 size={18} />
                       </button>
+                      <a target="blank" href={`http://localhost:8000${app.cv}`}>
+                        <button className="bg-blue-700 px-3 py-1  text-white cursor-pointer rounded-md mt-4">
+                          preview cv
+                        </button>
+                      </a>
                     </div>
                   ))}
-              </div>
+              </section>
             </div>
           ))
         )}
 
         {/* Modal for selected applicant */}
-        {selectedApplicant && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg max-w-md w-full p-6 relative">
-              <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                onClick={() => setSelectedApplicant(null)}
-              >
-                ✕
-              </button>
-              <h3 className="text-xl font-bold mb-2">
-                {selectedApplicant.username}
-              </h3>
-              <p className="text-gray-700 mb-4">
-                {selectedApplicant.description}
-              </p>
-              <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                disabled
-              >
-                Download CV (Coming Soon)
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );

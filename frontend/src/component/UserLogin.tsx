@@ -52,7 +52,7 @@ function SignupForm() {
       <Toaster />
 
       <div className=" bg-white   w-full max-w-md p-8 rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">Wellcome back</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Welcome back</h2>
         <form onSubmit={handleSubmit} className="space-y-5 ">
           <div className="flex flex-col">
             <label className="mb-2 font-medium ">Email</label>

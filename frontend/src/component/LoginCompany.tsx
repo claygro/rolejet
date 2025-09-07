@@ -50,12 +50,14 @@ const LoginCompany = () => {
       >
         <div className="fixed top-10 right-10">
           <NavLink to="/">
-            <button>User Register?</button>
+            <button className="bg-blue-700 px-4 py-2 text-white rounded-xl cursor-pointer">
+              User Register?
+            </button>
           </NavLink>
         </div>
         <Toaster />
         <div className=" bg-white   w-full max-w-md p-8 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold text-center mb-6">Company Login</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Welcome back</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="flex flex-col">

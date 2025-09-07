@@ -34,7 +34,7 @@ const NavBar = () => {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <NavLink to="/user" className="text-2xl font-bold text-blue-700">
-              Jobly<span className="text-gray-500">.</span>
+              Rolejet<span className="text-gray-500">.</span>
             </NavLink>
           </div>
 
@@ -63,7 +63,7 @@ const NavBar = () => {
               My profile
             </NavLink>
             <NavLink
-              to="/settings"
+              to="/user/about"
               end
               className={({ isActive }) =>
                 `transition ${
@@ -71,7 +71,7 @@ const NavBar = () => {
                 } hover:text-blue-700`
               }
             >
-              Settings
+              About us
             </NavLink>
           </div>
 

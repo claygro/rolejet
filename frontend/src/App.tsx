@@ -17,6 +17,9 @@ import JobsPage from "./component/JobsPage";
 import UserJobDetails from "./component/UserJobDetails";
 import UserProfilePage from "./component/UserProfilePage";
 import VerifyOtp from "./component/OtpVerification";
+import AiMockInterviewQuestion from "./component/AiMockInterviewQuestion";
+import AIMockInterview from "./component/AiMockInterview";
+import Aboutus from "./component/Aboutus";
 
 function App() {
   return (
@@ -44,10 +47,13 @@ function App() {
         <Route path="/user" element={<UserLayout />}>
           <Route index element={<UserPage />} />
           <Route path="userHome" element={<UserPage />} />
-          <Route path="settings" element={<Settings />} />
+
           <Route path="jobs" element={<JobsPage />} />
           <Route path="view/:id" element={<UserJobDetails />} />
           <Route path="profilePage" element={<UserProfilePage />} />
+          <Route path="interviewAsk" element={<AiMockInterviewQuestion />} />
+          <Route path="about" element={<Aboutus />} />
+          <Route path="interview" element={<AIMockInterview />} />
         </Route>
       </Routes>
     </Router>
