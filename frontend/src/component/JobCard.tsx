@@ -20,6 +20,7 @@ const JobCard = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!ref.current) return;
     gsap.fromTo(
@@ -32,30 +33,23 @@ const JobCard = ({
   return (
     <div
       ref={ref}
-      className="flex flex-col bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className="relative bg-white rounded-4xl p-8 shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 hover:scale-105 transition-all cursor-pointer overflow-hidden"
     >
-      {/* Content */}
-      <div className="flex-1 p-5 flex flex-col">
-        <div className="flex justify-between items-start gap-3 mb-3">
-          <div>
-            <h3 className="text-lg font-semibold text-blue-800">{job.title}</h3>
-            <p className="text-sm text-gray-500 mt-1">
-              📍 {job.location || "Remote"}
-            </p>
-          </div>
-          <div className="text-sm text-gray-400">{job.industry}</div>
-        </div>
+      {/* Decorative background circles */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-ping"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-cyan-200 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-pulse"></div>
 
-        <p className="text-gray-700 text-sm flex-1">
-          {job.description
-            ? job.description.length > 140
-              ? job.description.slice(0, 140) + "..."
-              : job.description
-            : "No description"}
-        </p>
-
-        <div className="mt-4 flex gap-2 flex-wrap">
-          {job.requiredSkills?.slice(0, 3).map((s) => (
+      {/* Job Content */}
+      <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2 hover:text-blue-700 transition-colors">
+        {job.title}
+      </h3>
+      {job.industry && (
+        <p className="text-gray-600 mb-1 font-semibold">{job.industry}</p>
+      )}
+      <p className="text-gray-600 mb-1">📍 {job.location || "Remote"}</p>
+      {job.requiredSkills && (
+        <div className="flex flex-wrap gap-2 mb-4 mt-2">
+          {job.requiredSkills.slice(0, 3).map((s) => (
             <span
               key={s}
               className="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-lg"
@@ -64,14 +58,22 @@ const JobCard = ({
             </span>
           ))}
         </div>
-      </div>
+      )}
 
-      {/* Full-width button */}
+      <p className="text-gray-700 mb-6 line-clamp-3">
+        {job.description
+          ? job.description.length > 140
+            ? job.description.slice(0, 140) + "..."
+            : job.description
+          : "No description"}
+      </p>
+
+      {/* Action Button */}
       <button
         onClick={() => navigate(`/user/view/${job?._id}`)}
-        className="w-full px-4 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+        className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold shadow-lg transform hover:scale-105 transition-transform duration-300 py-3 rounded-xl"
       >
-        View Details
+        Apply Now
       </button>
     </div>
   );

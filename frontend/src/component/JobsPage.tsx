@@ -40,8 +40,8 @@ const JobsPage = () => {
     setLoading(true);
     try {
       const categoryMap: any = {
-        fulltime: "Full Time",
-        parttime: "Part Time",
+        fulltime: "Full-time",
+        parttime: "Part-time",
         internship: "Internship",
       };
       const workModeMap: any = {
@@ -106,8 +106,8 @@ const JobsPage = () => {
           className="px-4 py-3 border rounded-lg border-gray-300 focus:ring-2 focus:ring-blue-200 focus:outline-none"
         >
           <option value="all">All Categories</option>
-          <option value="fulltime">Full Time</option>
-          <option value="parttime">Part Time</option>
+          <option value="fulltime">Full-time</option>
+          <option value="parttime">Part-time</option>
           <option value="internship">Internship</option>
         </select>
         <select

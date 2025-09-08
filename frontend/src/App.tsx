@@ -20,6 +20,10 @@ import VerifyOtp from "./component/OtpVerification";
 import AiMockInterviewQuestion from "./component/AiMockInterviewQuestion";
 import AIMockInterview from "./component/AiMockInterview";
 import Aboutus from "./component/Aboutus";
+import NotFoundPage from "./component/NotFoundPage";
+import Pricing from "./component/Pricing";
+import Ranking from "./component/Ranking";
+import RoleJetPreparationCenter from "./component/Preparation";
 
 function App() {
   return (
@@ -40,7 +44,9 @@ function App() {
           <Route path="jobDetail/:id" element={<JobDetail />} />{" "}
           {/* ✅ company detail */}
           <Route path="analytics" element={<Analytics />} />
+          <Route path="pricing" element={<Pricing />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="ranking" element={<Ranking />} />
         </Route>
 
         {/* User Dashboard (with navbar via UserLayout) */}
@@ -54,7 +60,9 @@ function App() {
           <Route path="interviewAsk" element={<AiMockInterviewQuestion />} />
           <Route path="about" element={<Aboutus />} />
           <Route path="interview" element={<AIMockInterview />} />
+          <Route path="preparation" element={<RoleJetPreparationCenter />} />
         </Route>
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

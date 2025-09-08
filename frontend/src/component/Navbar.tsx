@@ -73,16 +73,21 @@ const NavBar = () => {
             >
               About us
             </NavLink>
+            <NavLink
+              to="/user/preparation"
+              end
+              className={({ isActive }) =>
+                `transition ${
+                  isActive ? "text-blue-700 font-semibold" : "text-gray-700"
+                } hover:text-blue-700`
+              }
+            >
+              Preparation
+            </NavLink>
           </div>
 
           {/* Desktop Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => navigate("/user")}
-              className="px-3 py-1 rounded-md text-sm text-gray-700 hover:bg-gray-100"
-            >
-              Dashboard
-            </button>
             <button
               onClick={handleLogout}
               className="px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
@@ -113,21 +118,29 @@ const NavBar = () => {
               Jobs
             </NavLink>
             <NavLink
-              to="/settings"
+              to="/user/profilePage"
+              end
               onClick={() => setMobileOpen(false)}
-              className="text-gray-700 hover:text-blue-700 transition"
+              className={({ isActive }) =>
+                `transition ${
+                  isActive ? "text-blue-700 font-semibold" : "text-gray-700"
+                } hover:text-blue-700`
+              }
             >
-              Settings
+              My profile
             </NavLink>
-            <button
-              onClick={() => {
-                navigate("/user");
-                setMobileOpen(false);
-              }}
-              className="text-gray-700 hover:text-blue-700 transition text-left"
+            <NavLink
+              to="/user/about"
+              end
+              onClick={() => setMobileOpen(false)}
+              className={({ isActive }) =>
+                `transition ${
+                  isActive ? "text-blue-700 font-semibold" : "text-gray-700"
+                } hover:text-blue-700`
+              }
             >
-              Dashboard
-            </button>
+              About us
+            </NavLink>
             <button
               onClick={handleLogout}
               className="px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition w-fit"

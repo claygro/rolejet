@@ -14,6 +14,8 @@ interface Token {
   name: string;
   email: string;
 }
+import { MdOutlinePriceChange } from "react-icons/md";
+import { PiRankingLight } from "react-icons/pi";
 
 const CompanyDashboard = () => {
   const navigate = useNavigate();
@@ -77,6 +79,16 @@ const CompanyDashboard = () => {
           <li>
             <NavLink to="analytics" className={navLinkClass}>
               <FaChartBar /> Applications
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="pricing" className={navLinkClass}>
+              <MdOutlinePriceChange /> Pricing
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="ranking" className={navLinkClass}>
+              <PiRankingLight /> Ranking
             </NavLink>
           </li>
           <li>

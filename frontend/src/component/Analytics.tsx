@@ -87,7 +87,20 @@ const Analytics = () => {
         <p className="mb-6 text-gray-600">
           View and analyze your job applications here.
         </p>
-
+        <div className="flex justify-around items-center bg-white shadow text-black px-4 py-3 mt-2 mb-2 ">
+          <div>
+            <h1 className="text-xl">Total Applicants</h1>
+            <p className="text-md text-center">25</p>
+          </div>
+          <div>
+            <h1 className="text-xl">Total Accept Applicants</h1>
+            <p className="text-md text-center">10</p>
+          </div>
+          <div>
+            <h1 className="text-xl">Total Reject Applicants</h1>
+            <p className="text-md text-center">15</p>
+          </div>
+        </div>
         {loading ? (
           <p className="text-gray-500">Loading...</p>
         ) : jobs.length === 0 ? (

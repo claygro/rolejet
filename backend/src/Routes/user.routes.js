@@ -70,5 +70,5 @@ router.put(
   upload.single("image"),
   userController.userProfilePicEdit
 );
-
+router.get("/getCookie", userAuth, userController.getCookie);
 export default router;

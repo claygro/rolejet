@@ -344,6 +344,18 @@ class UserController {
       res.status(500).json({ message: "Internal server error" });
     }
   }
+  async getCookie(req, res) {
+    try {
+      const token = req.cookies.job_auth_token;
+      if (!token) {
+        return res.status(404).json({ message: "Your are not logged in" });
+      }
+      res.status(200).json({ message: "Successfully get token", token });
+    } catch (err) {
+      console.log(`Error in get cookie ${err}`);
+      res.status(500).json({ message: "Error in getting cookie" });
+    }
+  }
 }
 
 export default UserController;
